@@ -2,6 +2,7 @@
 import type { Locale } from '../content/types';
 import { profile } from '../content/profile';
 import { assetPath, copy } from '../lib/content';
+import ArrowIcon from './ArrowIcon.astro';
 interface Props {
   locale: Locale;
 }
@@ -14,13 +15,14 @@ const text = copy[locale].contact;
   class="contact-section section"
   aria-labelledby="contact-heading"
 >
-  <div class="container contact-inner">
+  <div class="container contact-inner" data-reveal>
     <div>
       <p class="eyebrow">{text.label}</p>
       <h2 id="contact-heading">{text.heading}</h2>
       <p class="contact-description">{text.description}</p>
       <a class="button button-light" href={`mailto:${profile.email}`}>
         {text.email}
+        <ArrowIcon />
       </a>
     </div>
     <div class="contact-details">
@@ -39,6 +41,7 @@ const text = copy[locale].contact;
       <div class="cv-link">
         <a href={assetPath(profile.cv)} download="Rafael-Marques-CV.pdf">
           {text.cv}
+          <ArrowIcon direction="down" />
         </a>
         <span>{text.cvNote}</span>
       </div>
@@ -48,6 +51,7 @@ const text = copy[locale].contact;
 <script>
   const button = document.querySelector<HTMLButtonElement>('.copy-email');
   const status = document.querySelector<HTMLElement>('.copy-status');
+  button?.setAttribute('data-copy-ready', '');
   button?.addEventListener('click', async () => {
     if (!status || !button.dataset.email) return;
     try {

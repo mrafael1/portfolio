@@ -28,12 +28,14 @@ npm run format:check
 - `src/components/`: navigation, page sections and shared presentation elements.
 - `src/layouts/`: page composition, metadata and common structure.
 - `src/pages/`: static routes, sitemap, robots.txt and the 404 page.
-- `src/assets/`: AloneLab website capture, optimised during the build.
+- `src/scripts/`: native browser enhancements, including the entrance motion controller.
+- `src/assets/`: AloneLab website capture, optimised during the build, and the editable SVG for the social preview.
 - `src/styles/`: design tokens, layout, components and responsive rules in explicit CSS layers.
 - `public/documents/`: downloadable CV.
+- `public/social-preview.png`: 1200 × 630 image for shared links.
 - `tests/`: browser checks for navigation, languages, downloads, contact feedback, mobile layout and accessibility.
 
-Astro generates the HTML at build time. The only browser scripts control the mobile navigation and email copy button. Content remains readable with JavaScript disabled. Fonts are self-hosted; there are no analytics, tracking scripts or external font requests.
+Astro generates the HTML at build time. Small native scripts enhance the mobile navigation, email copy button and entrance reveals. Content and navigation work without JavaScript. Motion respects the system preference for reduced motion, plays once per element and stops when an element receives keyboard focus. Content starts visible; animations never gate access to it. Fonts are self-hosted; there are no analytics, tracking scripts or external font requests.
 
 Manrope and IBM Plex Mono are distributed under the SIL Open Font License. Their license notices are included in `public/fonts/licenses/`.
 

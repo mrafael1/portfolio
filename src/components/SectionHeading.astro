@@ -1,14 +1,15 @@
 ---
 interface Props {
+  id: string;
   label: string;
   heading: string;
   description?: string;
 }
-const { label, heading, description } = Astro.props;
+const { id, label, heading, description } = Astro.props;
 ---
 
-<div class="section-heading">
+<div class="section-heading" data-reveal>
   <p class="eyebrow">{label}</p>
-  <h2>{heading}</h2>
+  <h2 id={id}>{heading}</h2>
   {description && <p class="section-intro">{description}</p>}
 </div>

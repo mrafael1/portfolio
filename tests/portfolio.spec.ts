@@ -115,6 +115,7 @@ test('copying an email gives feedback and contact is a working link', async ({
 test('main pages have no automated accessibility violations', async ({
   page,
 }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   for (const route of ['', 'en/', 'projets/alonelab/', 'projets/textile/']) {
     await page.goto(`${home}${route}`);
     const results = await new AxeBuilder({ page })
@@ -122,4 +123,97 @@ test('main pages have no automated accessibility violations', async ({
       .analyze();
     expect(results.violations).toEqual([]);
   }
+});
+
+test('reduced motion keeps sections visible and disables movement', async ({
+  page,
+}) => {
+  await page.goto(home);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await page
+    .getByRole('link', { name: 'Voir mes réalisations', exact: true })
+    .click();
+  const project = page.getByRole('article').filter({
+    has: page.getByRole('heading', { name: 'AloneLab', exact: true }),
+  });
+  await expect(project).toBeInViewport();
+  await expect(project).toHaveCSS('opacity', '1');
+  await expect(project).toHaveCSS('transform', 'none');
+  expect(
+    await page
+      .locator('main')
+      .evaluate(
+        (element) =>
+          element
+            .getAnimations({ subtree: true })
+            .filter((animation) => animation.playState === 'running').length,
+      ),
+  ).toBe(0);
+  await page.getByRole('link', { name: 'AloneLab', exact: true }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('AloneLab');
+  await expect(page.locator('.case-heading')).toHaveCSS('opacity', '1');
+});
+
+test('navigation and content remain usable without JavaScript', async ({
+  browser,
+  baseURL,
+  page,
+}) => {
+  if (!baseURL) throw new Error('A test server URL is required.');
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    baseURL,
+    viewport: page.viewportSize(),
+  });
+  try {
+    const fallback = await context.newPage();
+    await fallback.goto(home);
+    await expect(fallback.getByRole('heading', { level: 1 })).toBeVisible();
+    await expect(
+      fallback.getByRole('button', { name: 'Menu de navigation' }),
+    ).toBeHidden();
+    await expect(
+      fallback.getByRole('button', { name: 'Copier l’adresse e-mail' }),
+    ).toBeHidden();
+    await fallback
+      .getByRole('navigation')
+      .getByRole('link', { name: 'Contact', exact: true })
+      .click();
+    await expect(fallback.locator('#contact')).toBeInViewport();
+    await expect(
+      fallback.getByRole('link', { name: 'M’écrire', exact: true }),
+    ).toBeVisible();
+    await fallback
+      .getByRole('link', { name: 'View this page in English' })
+      .click();
+    await expect(fallback.locator('html')).toHaveAttribute('lang', 'en');
+  } finally {
+    await context.close();
+  }
+});
+
+test('shared-link metadata points to an available branded image', async ({
+  page,
+  request,
+}) => {
+  await page.goto(`${home}en/projects/alonelab/`);
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    'https://mrafael1.github.io/portfolio/social-preview.png',
+  );
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+    'content',
+    'summary_large_image',
+  );
+  await expect(page.locator('link[hreflang="x-default"]')).toHaveAttribute(
+    'href',
+    'https://mrafael1.github.io/portfolio/projets/alonelab/',
+  );
+  const image = await request.get(`${home}social-preview.png`);
+  expect(image.status()).toBe(200);
+  expect(image.headers()['content-type']).toContain('image/png');
+  expect((await image.body()).subarray(0, 8)).toEqual(
+    Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
+  );
 });

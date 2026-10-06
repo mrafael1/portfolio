@@ -5,6 +5,7 @@ import type { Locale } from '../content/types';
 import { copy, projectPath } from '../lib/content';
 import SectionHeading from './SectionHeading.astro';
 import Skills from './Skills.astro';
+import ArrowIcon from './ArrowIcon.astro';
 interface Props {
   locale: Locale;
 }
@@ -18,14 +19,13 @@ const featured = text.items[0]!;
   class="section container"
   aria-labelledby="projects-heading"
 >
-  <div id="projects-heading">
-    <SectionHeading
-      label={text.label}
-      heading={text.heading}
-      description={text.intro}
-    />
-  </div>
-  <article class="featured-project">
+  <SectionHeading
+    id="projects-heading"
+    label={text.label}
+    heading={text.heading}
+    description={text.intro}
+  />
+  <article class="featured-project" data-reveal>
     <a
       class="project-preview"
       href={projectPath(locale, featured.slug)}
@@ -55,6 +55,7 @@ const featured = text.items[0]!;
       <div class="project-actions">
         <a class="text-link" href={projectPath(locale, featured.slug)}>
           {text.details}
+          <ArrowIcon />
         </a>
         <a
           class="subtle-link"
@@ -63,6 +64,7 @@ const featured = text.items[0]!;
           rel="noopener noreferrer"
         >
           {text.visit}
+          <ArrowIcon direction="up-right" />
           <span class="sr-only">
             {' '}
             ({locale === 'fr' ? 'nouvel onglet' : 'new tab'})
@@ -73,7 +75,7 @@ const featured = text.items[0]!;
   </article>
   <div class="project-list">
     {text.items.slice(1).map((project, index) => (
-      <article class="project-row">
+      <article class="project-row" data-reveal>
         <span class="project-index" aria-hidden="true">
           0{index + 2}
         </span>
@@ -87,6 +89,7 @@ const featured = text.items[0]!;
         </div>
         <a class="project-detail-link" href={projectPath(locale, project.slug)}>
           {text.details}
+          <ArrowIcon />
           <span class="sr-only"> : {project.name}</span>
         </a>
       </article>

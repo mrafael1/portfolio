@@ -53,6 +53,9 @@ const home = homePath(locale);
 <script>
   const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
   const navigation = document.querySelector<HTMLElement>('#main-navigation');
+  if (toggle && navigation) {
+    toggle.closest('.site-header')?.setAttribute('data-menu-ready', '');
+  }
   function closeMenu() {
     toggle?.setAttribute('aria-expanded', 'false');
     navigation?.classList.remove('is-open');

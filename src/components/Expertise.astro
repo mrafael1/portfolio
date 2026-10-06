@@ -16,12 +16,14 @@ const text = copy[locale].expertise;
   aria-labelledby="expertise-heading"
 >
   <div class="container">
-    <div id="expertise-heading">
-      <SectionHeading label={text.label} heading={text.heading} />
-    </div>
+    <SectionHeading
+      id="expertise-heading"
+      label={text.label}
+      heading={text.heading}
+    />
     <div class="expertise-grid">
       {text.items.map((item, index) => (
-        <article>
+        <article data-reveal data-reveal-delay={index * 70}>
           <span class="expertise-number" aria-hidden="true">
             /{index + 1}
           </span>

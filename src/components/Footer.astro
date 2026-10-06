@@ -2,6 +2,7 @@
 import { profile } from '../content/profile';
 import type { Locale } from '../content/types';
 import { copy, homePath } from '../lib/content';
+import ArrowIcon from './ArrowIcon.astro';
 interface Props {
   locale: Locale;
 }
@@ -16,7 +17,7 @@ const { locale } = Astro.props;
     <p>{copy[locale].footer}</p>
   </div>
   <a href={profile.github} target="_blank" rel="noopener noreferrer">
-    GitHub{' '}
+    GitHub <ArrowIcon direction="up-right" />
     <span class="sr-only">
       ({locale === 'fr' ? 'nouvel onglet' : 'new tab'})
     </span>

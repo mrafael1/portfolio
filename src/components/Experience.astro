@@ -15,12 +15,14 @@ const text = copy[locale].experience;
   class="section container"
   aria-labelledby="experience-heading"
 >
-  <div id="experience-heading">
-    <SectionHeading label={text.label} heading={text.heading} />
-  </div>
+  <SectionHeading
+    id="experience-heading"
+    label={text.label}
+    heading={text.heading}
+  />
   <div class="experience-list">
     {text.items.map((item) => (
-      <article class="experience-row">
+      <article class="experience-row" data-reveal>
         <div class="experience-company">
           <h3>{item.company}</h3>
           <p>{item.period}</p>
