@@ -1,0 +1,100 @@
+---
+import '@fontsource-variable/manrope';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import '../styles/global.css';
+import '../styles/motion.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { assetPath, copy } from '../lib/content';
+import { profile } from '../content/profile';
+import type { Locale } from '../content/types';
+interface Props {
+  locale: Locale;
+  alternatePath: string;
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+const {
+  locale,
+  alternatePath,
+  title = locale === 'fr'
+    ? 'Rafael Marques — Développeur web freelance'
+    : 'Rafael Marques — Freelance web developer',
+  description = copy[locale].description,
+  noindex = false,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const alternate = new URL(alternatePath, Astro.site);
+const socialPreview = new URL(assetPath('social-preview.png'), Astro.site);
+const socialAlt = 'Rafael Marques — Freelance · React · TypeScript · Node.js';
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  jobTitle:
+    locale === 'fr' ? 'Développeur web freelance' : 'Freelance web developer',
+  url: new URL(assetPath(), Astro.site).href,
+  sameAs: [profile.github],
+  knowsAbout: profile.primarySkills,
+};
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#f8f9fc" />
+    <link rel="icon" type="image/svg+xml" href={assetPath('favicon.svg')} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={locale} href={canonical} />
+    <link
+      rel="alternate"
+      hreflang={locale === 'fr' ? 'en' : 'fr'}
+      href={alternate}
+    />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={locale === 'fr' ? canonical : alternate}
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={locale === 'fr' ? 'fr_FR' : 'en_GB'} />
+    <meta property="og:site_name" content="Rafael Marques" />
+    <meta property="og:image" content={socialPreview} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={socialAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialPreview} />
+    <meta name="twitter:image:alt" content={socialAlt} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')}
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      {copy[locale].skip}
+    </a>
+    <Header locale={locale} alternatePath={alternatePath} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+    <script>
+      import { initMotion } from '../scripts/motion';
+      initMotion();
+    </script>
+  </body>
+</html>

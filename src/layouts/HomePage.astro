@@ -1,0 +1,25 @@
+---
+import type { Locale } from '../content/types';
+import { homePath } from '../lib/content';
+import BaseLayout from './BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Projects from '../components/Projects.astro';
+import Expertise from '../components/Expertise.astro';
+import Experience from '../components/Experience.astro';
+import Contact from '../components/Contact.astro';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+---
+
+<BaseLayout
+  locale={locale}
+  alternatePath={homePath(locale === 'fr' ? 'en' : 'fr')}
+>
+  <Hero locale={locale} />
+  <Projects locale={locale} />
+  <Expertise locale={locale} />
+  <Experience locale={locale} />
+  <Contact locale={locale} />
+</BaseLayout>

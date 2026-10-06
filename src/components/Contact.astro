@@ -1,0 +1,64 @@
+---
+import type { Locale } from '../content/types';
+import { profile } from '../content/profile';
+import { assetPath, copy } from '../lib/content';
+import ArrowIcon from './ArrowIcon.astro';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const text = copy[locale].contact;
+---
+
+<section
+  id="contact"
+  class="contact-section section"
+  aria-labelledby="contact-heading"
+>
+  <div class="container contact-inner" data-reveal>
+    <div>
+      <p class="eyebrow">{text.label}</p>
+      <h2 id="contact-heading">{text.heading}</h2>
+      <p class="contact-description">{text.description}</p>
+      <a class="button button-light" href={`mailto:${profile.email}`}>
+        {text.email}
+        <ArrowIcon />
+      </a>
+    </div>
+    <div class="contact-details">
+      <a class="contact-address" href={`mailto:${profile.email}`}>
+        {profile.email}
+      </a>
+      <button
+        class="copy-email"
+        data-email={profile.email}
+        data-success={text.copied}
+        data-failure={text.copyFailed}
+      >
+        {text.copy}
+      </button>
+      <p class="copy-status" role="status" aria-live="polite"></p>
+      <div class="cv-link">
+        <a href={assetPath(profile.cv)} download="Rafael-Marques-CV.pdf">
+          {text.cv}
+          <ArrowIcon direction="down" />
+        </a>
+        <span>{text.cvNote}</span>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.copy-email');
+  const status = document.querySelector<HTMLElement>('.copy-status');
+  button?.setAttribute('data-copy-ready', '');
+  button?.addEventListener('click', async () => {
+    if (!status || !button.dataset.email) return;
+    try {
+      await navigator.clipboard.writeText(button.dataset.email);
+      status.textContent = button.dataset.success ?? '';
+    } catch {
+      status.textContent = button.dataset.failure ?? '';
+    }
+  });
+</script>

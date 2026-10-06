@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import preview from '../assets/alonelab.jpg';
+import type { Locale } from '../content/types';
+import { copy, projectPath } from '../lib/content';
+import SectionHeading from './SectionHeading.astro';
+import Skills from './Skills.astro';
+import ArrowIcon from './ArrowIcon.astro';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const text = copy[locale].projects;
+const featured = text.items[0]!;
+---
+
+<section
+  id="projects"
+  class="section container"
+  aria-labelledby="projects-heading"
+>
+  <SectionHeading
+    id="projects-heading"
+    label={text.label}
+    heading={text.heading}
+    description={text.intro}
+  />
+  <article class="featured-project" data-reveal>
+    <a
+      class="project-preview"
+      href={projectPath(locale, featured.slug)}
+      aria-label={`${text.details} : ${featured.name}`}
+    >
+      <Image
+        src={preview}
+        alt={
+          locale === 'fr'
+            ? 'Accueil du site AloneLab, avec son identité visuelle en pixel art'
+            : 'AloneLab homepage with its pixel-art visual identity'
+        }
+        width={760}
+        height={440}
+        format="webp"
+        quality={86}
+        loading="lazy"
+      />
+    </a>
+    <div class="project-copy">
+      <p class="eyebrow">{featured.category}</p>
+      <h3>
+        <a href={projectPath(locale, featured.slug)}>{featured.name}</a>
+      </h3>
+      <p>{featured.summary}</p>
+      <Skills items={featured.technologies} />
+      <div class="project-actions">
+        <a class="text-link" href={projectPath(locale, featured.slug)}>
+          {text.details}
+          <ArrowIcon />
+        </a>
+        <a
+          class="subtle-link"
+          href={featured.url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {text.visit}
+          <ArrowIcon direction="up-right" />
+          <span class="sr-only">
+            {' '}
+            ({locale === 'fr' ? 'nouvel onglet' : 'new tab'})
+          </span>
+        </a>
+      </div>
+    </div>
+  </article>
+  <div class="project-list">
+    {text.items.slice(1).map((project, index) => (
+      <article class="project-row" data-reveal>
+        <span class="project-index" aria-hidden="true">
+          0{index + 2}
+        </span>
+        <div>
+          <p class="eyebrow">{project.category}</p>
+          <h3>
+            <a href={projectPath(locale, project.slug)}>{project.name}</a>
+          </h3>
+          <p>{project.summary}</p>
+          <Skills items={project.technologies} />
+        </div>
+        <a class="project-detail-link" href={projectPath(locale, project.slug)}>
+          {text.details}
+          <ArrowIcon />
+          <span class="sr-only"> : {project.name}</span>
+        </a>
+      </article>
+    ))}
+  </div>
+</section>
