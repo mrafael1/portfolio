@@ -1,0 +1,25 @@
+---
+import { profile } from '../content/profile';
+import type { Locale } from '../content/types';
+import { copy, homePath } from '../lib/content';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+---
+
+<footer class="site-footer container">
+  <div>
+    <a class="footer-name" href={homePath(locale)}>
+      {profile.name}
+    </a>
+    <p>{copy[locale].footer}</p>
+  </div>
+  <a href={profile.github} target="_blank" rel="noopener noreferrer">
+    GitHub{' '}
+    <span class="sr-only">
+      ({locale === 'fr' ? 'nouvel onglet' : 'new tab'})
+    </span>
+  </a>
+  <span class="footer-copyright">© {new Date().getFullYear()}</span>
+</footer>

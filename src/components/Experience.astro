@@ -1,0 +1,44 @@
+---
+import type { Locale } from '../content/types';
+import { copy } from '../lib/content';
+import SectionHeading from './SectionHeading.astro';
+import Skills from './Skills.astro';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const text = copy[locale].experience;
+---
+
+<section
+  id="experience"
+  class="section container"
+  aria-labelledby="experience-heading"
+>
+  <div id="experience-heading">
+    <SectionHeading label={text.label} heading={text.heading} />
+  </div>
+  <div class="experience-list">
+    {text.items.map((item) => (
+      <article class="experience-row">
+        <div class="experience-company">
+          <h3>{item.company}</h3>
+          <p>{item.period}</p>
+        </div>
+        <div class="experience-description">
+          <h4>{item.role}</h4>
+          <p>{item.description}</p>
+          {item.contributions.length > 0 && (
+            <ul class="contributions">
+              {item.contributions.map((contribution) => (
+                <li>{contribution}</li>
+              ))}
+            </ul>
+          )}
+          <Skills items={item.technologies} />
+        </div>
+      </article>
+    ))}
+  </div>
+  <p class="education-note">{text.education}</p>
+</section>

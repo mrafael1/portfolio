@@ -1,0 +1,81 @@
+---
+import type { Locale } from '../content/types';
+import { copy, homePath } from '../lib/content';
+interface Props {
+  locale: Locale;
+  alternatePath: string;
+}
+const { locale, alternatePath } = Astro.props;
+const text = copy[locale];
+const home = homePath(locale);
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href={home} aria-label="Rafael Marques">
+      <span class="monogram" aria-hidden="true">
+        rm.
+      </span>
+      <span>Rafael Marques</span>
+    </a>
+    <button
+      class="menu-toggle"
+      aria-label={text.menu}
+      aria-controls="main-navigation"
+      aria-expanded="false"
+    >
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="main-navigation" class="navigation" aria-label={text.menu}>
+      <a href={`${home}#projects`}>{text.navigation.projects}</a>
+      <a href={`${home}#expertise`}>{text.navigation.expertise}</a>
+      <a href={`${home}#experience`}>{text.navigation.experience}</a>
+      <a class="nav-contact" href={`${home}#contact`}>
+        {text.navigation.contact}
+      </a>
+    </nav>
+    <a
+      class="language-link"
+      href={alternatePath}
+      hreflang={locale === 'fr' ? 'en' : 'fr'}
+      lang={locale === 'fr' ? 'en' : 'fr'}
+      aria-label={
+        locale === 'fr'
+          ? 'View this page in English'
+          : 'Voir cette page en français'
+      }
+    >
+      {locale === 'fr' ? 'EN' : 'FR'}
+    </a>
+  </div>
+</header>
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const navigation = document.querySelector<HTMLElement>('#main-navigation');
+  function closeMenu() {
+    toggle?.setAttribute('aria-expanded', 'false');
+    navigation?.classList.remove('is-open');
+  }
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    navigation?.classList.toggle('is-open', open);
+  });
+  navigation?.addEventListener('click', (event) => {
+    if ((event.target as HTMLElement).closest('a')) closeMenu();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (
+      event.key === 'Escape' &&
+      toggle?.getAttribute('aria-expanded') === 'true'
+    ) {
+      closeMenu();
+      toggle.focus();
+    }
+  });
+  document.addEventListener('click', (event) => {
+    if (!(event.target as HTMLElement).closest('.site-header')) closeMenu();
+  });
+  window.matchMedia('(min-width: 800px)').addEventListener('change', closeMenu);
+</script>

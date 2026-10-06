@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { homePath } from '../lib/content';
+---
+
+<BaseLayout
+  locale="fr"
+  alternatePath={homePath('en')}
+  title="Page introuvable — Rafael Marques"
+  noindex
+>
+  <section class="not-found container">
+    <p class="eyebrow">404</p>
+    <h1>Cette page n’existe pas.</h1>
+    <p>Retrouvez mes réalisations et mes coordonnées sur la page d’accueil.</p>
+    <a class="button button-primary" href={homePath('fr')}>
+      Retour à l’accueil
+    </a>
+  </section>
+</BaseLayout>

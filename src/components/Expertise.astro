@@ -1,0 +1,35 @@
+---
+import type { Locale } from '../content/types';
+import { copy } from '../lib/content';
+import SectionHeading from './SectionHeading.astro';
+import Skills from './Skills.astro';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const text = copy[locale].expertise;
+---
+
+<section
+  id="expertise"
+  class="expertise-section section"
+  aria-labelledby="expertise-heading"
+>
+  <div class="container">
+    <div id="expertise-heading">
+      <SectionHeading label={text.label} heading={text.heading} />
+    </div>
+    <div class="expertise-grid">
+      {text.items.map((item, index) => (
+        <article>
+          <span class="expertise-number" aria-hidden="true">
+            /{index + 1}
+          </span>
+          <h3>{item.name}</h3>
+          <p>{item.description}</p>
+          <Skills items={item.technologies} />
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
