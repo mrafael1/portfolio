@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import preview from '../assets/alonelab.jpg';
-import salesforceLogo from '../assets/salesforce.svg';
+import salesforceLogo from '../assets/salesforce-wordmark.svg';
 import type { Locale, Project } from '../content/types';
 import { copy, homePath, projectPath } from '../lib/content';
 import BaseLayout from './BaseLayout.astro';
@@ -27,24 +27,30 @@ const text = copy[locale];
       <ArrowIcon direction="left" />
       {text.caseStudy.back}
     </a>
-    <header class="case-heading" data-reveal>
-      <p
-        class:list={['eyebrow', { 'client-label': project.slug === 'textile' }]}
-      >
-        {project.slug === 'textile' && (
+    <header
+      class:list={[
+        'case-heading',
+        { 'case-heading-client': project.slug === 'textile' },
+      ]}
+      data-reveal
+    >
+      <div class="case-heading-copy">
+        <p class="eyebrow">{project.category}</p>
+        <h1>{project.name}</h1>
+        <p>{project.summary}</p>
+      </div>
+      {project.slug === 'textile' && (
+        <div class="case-client-identity">
+          <p class="eyebrow">Client</p>
           <Image
-            class="client-mark"
             src={salesforceLogo}
-            alt=""
-            width={40}
-            height={40}
+            alt="Salesforce"
+            width={276}
+            height={192}
             loading="eager"
           />
-        )}
-        <span>{project.category}</span>
-      </p>
-      <h1>{project.name}</h1>
-      <p>{project.summary}</p>
+        </div>
+      )}
     </header>
     {project.slug === 'alonelab' && (
       <div class="case-preview" data-reveal data-reveal-delay="80">
