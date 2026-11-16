@@ -54,11 +54,11 @@ export const fr = {
       {
         slug: 'textile',
         name: 'Site vitrine & API utilisateurs',
-        category: 'Mission freelance · Secteur textile',
+        category: 'Mission freelance · Salesforce',
         summary:
           'Réalisation d’un site vitrine et amélioration de la gestion et de la recherche des utilisateurs dans l’API.',
         context:
-          'Mission full-stack pour un client du secteur textile, portant sur sa présence web et la gestion des utilisateurs dans son API.',
+          'Réalisation d’un site vitrine pour Salesforce et amélioration de la gestion des utilisateurs dans une API.',
         contribution: [
           'Réalisation d’un site vitrine.',
           'Amélioration de la gestion des utilisateurs dans l’API.',
@@ -132,7 +132,7 @@ export const fr = {
         role: 'Développeur web freelance',
         period: 'Sept. 2022 — Sept. 2023',
         description:
-          'Deux missions clients : une intervention full-stack dans le textile et la création d’un back-office React.',
+          'Missions freelance : site vitrine pour Salesforce, amélioration d’une API utilisateurs et back-office React.',
         contributions: ['Réalisation d’un site vitrine pour Salesforce.'],
         technologies: ['React', 'TypeScript', 'Prisma', 'GraphQL'],
       },
@@ -170,7 +170,7 @@ export const fr = {
     stack: 'Compétences mobilisées',
     related: 'Un projet similaire ?',
     confidentiality:
-      'Présentation du périmètre de la mission. Le nom du client et ses données ne sont pas publiés.',
+      'Présentation du périmètre de la mission. Les données du client ne sont pas publiées.',
   },
   footer: 'Développeur web freelance · Île-de-France',
 } satisfies Copy;

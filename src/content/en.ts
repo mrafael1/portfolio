@@ -54,11 +54,11 @@ export const en = {
       {
         slug: 'textile',
         name: 'Showcase website & user API',
-        category: 'Freelance project · Textile industry',
+        category: 'Freelance project · Salesforce',
         summary:
           'A showcase website and improvements to user management and search in the API.',
         context:
-          'A full-stack engagement for a textile client, covering its web presence and user management API.',
+          'Building a showcase website for Salesforce and improving user management in an API.',
         contribution: [
           'Building a showcase website.',
           'Improving user management in the API.',
@@ -130,7 +130,7 @@ export const en = {
         role: 'Freelance web developer',
         period: 'Sep. 2022 — Sep. 2023',
         description:
-          'Two client projects: a full-stack engagement in the textile industry and a React back office.',
+          'Freelance work: a showcase website for Salesforce, user API improvements and a React back office.',
         contributions: ['Building a showcase website for Salesforce.'],
         technologies: ['React', 'TypeScript', 'Prisma', 'GraphQL'],
       },
@@ -167,7 +167,7 @@ export const en = {
     stack: 'Skills used',
     related: 'A similar project in mind?',
     confidentiality:
-      'This describes the scope of the engagement. The client’s name and data are not published.',
+      'This describes the scope of the engagement. Client data is not published.',
   },
   footer: 'Freelance web developer · Based near Paris',
 } satisfies Copy;
