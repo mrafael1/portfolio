@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import preview from '../assets/alonelab.jpg';
-import salesforceLogo from '../assets/salesforce.jpg';
+import salesforceLogo from '../assets/salesforce.svg';
 import type { Locale } from '../content/types';
 import { copy, projectPath } from '../lib/content';
 import SectionHeading from './SectionHeading.astro';
@@ -81,18 +81,24 @@ const featured = text.items[0]!;
           0{index + 2}
         </span>
         <div>
-          {project.slug === 'textile' && (
-            <Image
-              class="client-logo project-client-logo"
-              src={salesforceLogo}
-              alt={locale === 'fr' ? 'Logo Salesforce' : 'Salesforce logo'}
-              width={384}
-              height={216}
-              format="webp"
-              loading="lazy"
-            />
-          )}
-          <p class="eyebrow">{project.category}</p>
+          <p
+            class:list={[
+              'eyebrow',
+              { 'client-label': project.slug === 'textile' },
+            ]}
+          >
+            {project.slug === 'textile' && (
+              <Image
+                class="client-mark"
+                src={salesforceLogo}
+                alt=""
+                width={40}
+                height={40}
+                loading="lazy"
+              />
+            )}
+            <span>{project.category}</span>
+          </p>
           <h3>
             <a href={projectPath(locale, project.slug)}>{project.name}</a>
           </h3>

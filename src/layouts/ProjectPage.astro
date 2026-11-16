@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import preview from '../assets/alonelab.jpg';
-import salesforceLogo from '../assets/salesforce.jpg';
+import salesforceLogo from '../assets/salesforce.svg';
 import type { Locale, Project } from '../content/types';
 import { copy, homePath, projectPath } from '../lib/content';
 import BaseLayout from './BaseLayout.astro';
@@ -28,18 +28,21 @@ const text = copy[locale];
       {text.caseStudy.back}
     </a>
     <header class="case-heading" data-reveal>
-      {project.slug === 'textile' && (
-        <Image
-          class="client-logo case-client-logo"
-          src={salesforceLogo}
-          alt={locale === 'fr' ? 'Logo Salesforce' : 'Salesforce logo'}
-          width={448}
-          height={252}
-          format="webp"
-          loading="eager"
-        />
-      )}
-      <p class="eyebrow">{project.category}</p>
+      <p
+        class:list={['eyebrow', { 'client-label': project.slug === 'textile' }]}
+      >
+        {project.slug === 'textile' && (
+          <Image
+            class="client-mark"
+            src={salesforceLogo}
+            alt=""
+            width={40}
+            height={40}
+            loading="eager"
+          />
+        )}
+        <span>{project.category}</span>
+      </p>
       <h1>{project.name}</h1>
       <p>{project.summary}</p>
     </header>
