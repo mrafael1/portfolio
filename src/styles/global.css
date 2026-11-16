@@ -435,6 +435,20 @@
   .project-list {
     margin-top: 18px;
   }
+  .client-logo {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .project-client-logo {
+    float: right;
+    width: 192px;
+    margin: 0 0 20px 28px;
+  }
+  .case-client-logo {
+    width: 224px;
+    margin-bottom: 28px;
+  }
   .project-row {
     display: grid;
     grid-template-columns: 40px 1fr auto;
@@ -906,6 +920,10 @@
       grid-template-columns: 28px 1fr;
       gap: 15px;
       padding-block: 30px;
+    }
+    .project-client-logo {
+      float: none;
+      margin: 0 0 22px;
     }
     .project-detail-link {
       grid-column: 2;
