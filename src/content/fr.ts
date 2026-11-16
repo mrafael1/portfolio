@@ -133,7 +133,7 @@ export const fr = {
         period: 'Sept. 2022 — Sept. 2023',
         description:
           'Deux missions clients : une intervention full-stack dans le textile et la création d’un back-office React.',
-        contributions: [],
+        contributions: ['Réalisation d’un site vitrine pour Salesforce.'],
         technologies: ['React', 'TypeScript', 'Prisma', 'GraphQL'],
       },
       {

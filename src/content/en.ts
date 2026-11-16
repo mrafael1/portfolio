@@ -131,7 +131,7 @@ export const en = {
         period: 'Sep. 2022 — Sep. 2023',
         description:
           'Two client projects: a full-stack engagement in the textile industry and a React back office.',
-        contributions: [],
+        contributions: ['Building a showcase website for Salesforce.'],
         technologies: ['React', 'TypeScript', 'Prisma', 'GraphQL'],
       },
       {
